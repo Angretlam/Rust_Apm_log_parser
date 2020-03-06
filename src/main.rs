@@ -17,6 +17,9 @@ fn main() {
 
             if consume_sessions(out_file.to_string()).is_ok() {
                 println!("Successfully read the files of the sessions.");
+            } else {
+                println!("Files did not get condensed properly. Exiting.");
+
             }
 
         }
@@ -83,7 +86,7 @@ fn parse_file(file_handle: String) -> bool {
 fn consume_sessions(output: String) -> Result<() , Box<dyn Error>> {
 
     std::fs::write(&output, 
-        format!("Session,Session Start,Session End,User Agent,Hostname,OS,Client IP,McAfee AV Version,McAfee AV Running,McAfee AV Last Update,McAfee AV Last Scan,McAfee FW Version,McAfee FW State,McAfee DE Version,McAfee DE State,Tanium Client\n")
+        format!("Session,Session Start,Session End,User Agent,Hostname,OS,Client IP,McAfee AV Version,McAfee AV Running,McAfee AV Last Update,McAfee AV Last Scan,McAfee FW Version,McAfee FW State,McAfee DE Version,McAfee DE State,Tanium Client,Tanium State,SCCM State\n")
     ).expect("Could not write a file."); 
 
     struct SessionInfo {
@@ -289,9 +292,7 @@ fn consume_sessions(output: String) -> Result<() , Box<dyn Error>> {
 
             // Remove the file
             fs::remove_file(&path).expect("File removal failed.");
-            
         }
     }
     Ok(())
-
 }
